@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :ticket_types, { :format => 'json' }
+
   resources :registrations, :defaults => { :format => 'json' }
 
   resources :events, :defaults => { :format => 'json' }

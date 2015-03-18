@@ -10,11 +10,29 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    @registrations = Registration.where(@event.id) if params[:registrations]
-    @event_fields = params[:fields].split(',')
-    @registration_fields = params[:registration_fields].split(',')
-    Rails.logger.debug(@event_fields)
-    Rails.logger.debug(@registration_fields)
+
+    @model_has_many_associations = Event.reflect_on_all_associations.map { |assoc| assoc.name }
+    @matched_associations = {}
+    @assoc_fields = {}
+    @params = params
+    @event_fields = ['all']
+
+    @model_has_many_associations.each do |assoc|
+      if params.has_key?(assoc)
+        field_name = assoc.to_s.singularize+'_fields'
+        @assoc_fields[assoc] = params[field_name].split(',')
+        Rails.logger.debug(params[field_name].blue)
+
+        params[field_name] == 'all' ? query_params = '*'
+          : query_params = 'id,' + params[field_name]
+
+        @matched_associations[assoc] = assoc.to_s.camelize.singularize
+          .constantize.select(query_params)
+          .where(@event.id) if params[assoc]
+      end
+    end
+
+    @event_fields = params[:fields].split(',') if params[:fields]
   end
 
   # GET /events/new
