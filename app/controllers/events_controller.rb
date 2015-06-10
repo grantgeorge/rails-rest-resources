@@ -21,7 +21,6 @@ class EventsController < ApplicationController
       if params.has_key?(assoc)
         field_name = assoc.to_s.singularize+'_fields'
         @assoc_fields[assoc] = params[field_name].split(',')
-        Rails.logger.debug(params[field_name].blue)
 
         params[field_name] == 'all' ? query_params = '*'
           : query_params = 'id,' + params[field_name]
@@ -33,6 +32,7 @@ class EventsController < ApplicationController
     end
 
     @event_fields = params[:fields].split(',') if params[:fields]
+
   end
 
   # GET /events/new

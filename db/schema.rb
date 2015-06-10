@@ -13,37 +13,40 @@
 
 ActiveRecord::Schema.define(version: 20150313144053) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "events", force: :cascade do |t|
-    t.string   "name",             limit: 255
-    t.string   "description",      limit: 255
-    t.integer  "registration_cap", limit: 4
-    t.boolean  "walkins_enabled",  limit: 1
+    t.string   "name"
+    t.string   "description"
+    t.integer  "registration_cap"
+    t.boolean  "walkins_enabled"
     t.datetime "start"
     t.datetime "end"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "registrations", force: :cascade do |t|
-    t.string   "first_name", limit: 255
-    t.string   "last_name",  limit: 255
-    t.boolean  "walk_in",    limit: 1
-    t.boolean  "check_in",   limit: 1
-    t.integer  "event_id",   limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.boolean  "walk_in"
+    t.boolean  "check_in"
+    t.integer  "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "registrations", ["event_id"], name: "index_registrations_on_event_id", using: :btree
 
   create_table "ticket_types", force: :cascade do |t|
-    t.string   "name",                    limit: 255
-    t.integer  "quantity",                limit: 4
-    t.integer  "price",                   limit: 4
-    t.integer  "number_of_registrations", limit: 4
-    t.integer  "event_id",                limit: 4
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.string   "name"
+    t.integer  "quantity"
+    t.integer  "price"
+    t.integer  "number_of_registrations"
+    t.integer  "event_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "ticket_types", ["event_id"], name: "index_ticket_types_on_event_id", using: :btree
