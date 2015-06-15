@@ -28,3 +28,10 @@ group :development, :test do
   gem 'rspec-rails'
 end
 
+group :production, :staging do
+  gem 'rails_12factor', '0.0.3'
+  gem 'rails_stdout_logging', '0.0.3'
+end
+
+ruby '2.2.1'
+
